@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: aegisscan-ai-v2
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: starter
+    disk:
+      name: aegisscan-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      - key: AEGIS_SECRET_KEY
+        generateValue: true
+      - key: AEGIS_ADMIN_USERNAME
+        value: admin
+      - key: AEGIS_ADMIN_PASSWORD
+        sync: false
+      - key: AEGIS_AUTH_ENABLED
+        value: "true"
+      - key: AEGIS_COOKIE_SECURE
+        value: "true"
+      - key: AEGIS_DATABASE_PATH
+        value: /opt/render/project/src/data/aegisscan.db
+      - key: AEGIS_UPLOAD_MAX_MB
+        value: "8"
